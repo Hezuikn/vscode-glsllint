@@ -103,6 +103,11 @@
           "default": "",
           "description": "Fallback stage for when the shader stage could not be decuted"
         },
+        "glsllint.shaderCodePrepend": {
+          "type": "string",
+          "default": "",
+          "description": "shader code prepend"
+        },
         "glsllint.supportedLangsWithStringLiterals": {
           "type": "array",
           "default": [
