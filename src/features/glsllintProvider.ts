@@ -429,6 +429,8 @@ export class GLSLLintingProvider {
   }
 
   private async lintShaderCode(source: string, stage: string, includePath: boolean | string): Promise<vscode.Diagnostic[]> {
+    const prepend: string = this.config.shaderCodePrepend;
+    source = prepend + source;
     return new Promise<vscode.Diagnostic[]>((resolve) => {
       const glslangValidatorPath = this.getValidatorPath();
 
@@ -513,7 +515,7 @@ export class GLSLLintingProvider {
               if (severity !== undefined) {
                 const matches = line.match(/(WARNING|ERROR):\s+(\d|.*):(\d+):\s+(.*)/);
                 if (matches && matches.length === 5) {
-                  const errorline = parseInt(matches[3]);
+                  const errorline = parseInt(matches[3]) - (prepend.split("\n").length - 1);
                   const message = matches[4];
                   const range = new vscode.Range(errorline - 1, 0, errorline - 1, 0);
                   const diagnostic = new vscode.Diagnostic(range, message, severity);
